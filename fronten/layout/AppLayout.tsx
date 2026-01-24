@@ -1,9 +1,10 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { colors } from "../theme/colors";
 import Header from "./Header";
 import Footer from "./Footer";
+import MenuOverlay from "../components/header/MenuOverlay";
 
 type AppLayoutProps = {
   children: ReactNode;
@@ -11,15 +12,26 @@ type AppLayoutProps = {
 };
 
 export default function AppLayout({ children, onNavigate }: AppLayoutProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <SafeAreaView style={styles.safe}>
-      <Header onNavigate={onNavigate} />
+      <Header
+        onNavigate={onNavigate}
+        onMenuOpen={() => setMenuOpen(true)}
+      />
+
+      <MenuOverlay
+        visible={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        onNavigate={(screen) => {
+          setMenuOpen(false);
+          onNavigate(screen);
+        }}
+      />
 
       <ScrollView contentContainerStyle={styles.page}>
-        <View style={styles.main}>
-          {children}
-        </View>
-
+        <View style={styles.main}>{children}</View>
         <Footer onNavigate={onNavigate} />
       </ScrollView>
     </SafeAreaView>

@@ -8,15 +8,16 @@ import HeaderNav from "../components/header/HeaderNav";
 
 type HeaderProps = {
   onNavigate?: (screen: string) => void;
+  onMenuOpen?: () => void;
 };
 
-export default function Header({ onNavigate }: HeaderProps) {
+export default function Header({ onNavigate, onMenuOpen }: HeaderProps) {
   return (
     <View style={styles.wrapper}>
       <View style={styles.top}>
         <HeaderBrand onNavigate={onNavigate} />
         <HeaderTools onNavigate={onNavigate} />
-        <HeaderActions onNavigate={onNavigate} />
+        <HeaderActions onNavigate={onNavigate} onMenuOpen={onMenuOpen} />
       </View>
 
       <HeaderNav onNavigate={onNavigate} />
