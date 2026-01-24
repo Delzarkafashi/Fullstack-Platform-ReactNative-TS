@@ -4,16 +4,27 @@ import { colors } from "../../theme/colors";
 type HeaderActionsProps = {
   onNavigate?: (screen: string) => void;
   onMenuOpen?: () => void;
+  compact?: boolean;
 };
 
-export default function HeaderActions({ onNavigate, onMenuOpen }: HeaderActionsProps) {
+export default function HeaderActions({
+  onNavigate,
+  onMenuOpen,
+  compact = false,
+}: HeaderActionsProps) {
   return (
     <View style={styles.actions}>
-      <Pressable style={styles.pillPrimary} onPress={() => onNavigate?.("search")}>
+      <Pressable
+        style={[styles.pillPrimary, compact && styles.pillCompact]}
+        onPress={() => onNavigate?.("search")}
+      >
         <Text style={styles.pillPrimaryText}>Sök</Text>
       </Pressable>
 
-      <Pressable style={styles.pillGhost} onPress={onMenuOpen}>
+      <Pressable
+        style={[styles.pillGhost, compact && styles.pillCompact]}
+        onPress={onMenuOpen}
+      >
         <Text style={styles.pillGhostText}>Meny</Text>
       </Pressable>
     </View>
@@ -55,5 +66,12 @@ const styles = StyleSheet.create({
   pillGhostText: {
     color: colors.fg,
     fontWeight: "800",
+  },
+
+  pillCompact: {
+    paddingTop: 8,
+    paddingRight: 12,
+    paddingBottom: 8,
+    paddingLeft: 12,
   },
 });

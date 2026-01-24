@@ -5,19 +5,22 @@ type HeaderBrandProps = {
   onNavigate?: (screen: string) => void;
   title?: string;
   markText?: string;
+  compact?: boolean;
 };
 
 export default function HeaderBrand({
   onNavigate,
   title = "Kommunen",
   markText = "K",
+  compact = false,
 }: HeaderBrandProps) {
   return (
     <Pressable style={styles.brand} onPress={() => onNavigate?.("home")}>
-      <View style={styles.brandMark}>
+      <View style={[styles.brandMark, compact && styles.brandMarkCompact]}>
         <Text style={styles.brandMarkText}>{markText}</Text>
       </View>
-      <Text style={styles.brandText}>{title}</Text>
+
+      {!compact ? <Text style={styles.brandText}>{title}</Text> : null}
     </Pressable>
   );
 }
@@ -36,6 +39,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  brandMarkCompact: {
+    width: 34,
+    height: 34,
   },
 
   brandMarkText: {

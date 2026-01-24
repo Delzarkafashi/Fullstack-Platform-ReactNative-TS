@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { colors } from "../theme/colors";
 
 type FooterProps = {
@@ -7,39 +7,58 @@ type FooterProps = {
 };
 
 export default function Footer({ onNavigate }: FooterProps) {
+  const { width } = useWindowDimensions();
+  const isTablet = width < 1024;
+  const isMobile = width < 768;
+
+  const colsCount = isMobile ? 2 : isTablet ? 3 : 5;
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.topWhite}>
         <View style={styles.topInner}>
-          <View style={styles.featureRow}>
+          <View style={[styles.featureRow, isTablet && styles.featureRowWrap]}>
             <Feature
               text="Kontakt och öppettider"
               icon="🕘"
               onPress={() => onNavigate?.("contact")}
+              compact={isMobile}
             />
-            <Divider />
+
+            <Divider hide={isTablet} />
+
             <Feature
               text="E-tjänster med BankID"
               icon="🪪"
               onPress={() => onNavigate?.("e-services")}
+              compact={isMobile}
             />
-            <Divider />
+
+            <Divider hide={isTablet} />
+
             <Feature
               text="Tillgänglighet och lättläst"
               icon="♿"
               onPress={() => onNavigate?.("accessibility")}
+              compact={isMobile}
             />
-            <Divider />
+
+            <Divider hide={isTablet} />
+
             <Feature
               text="Drift och störningar"
               icon="⚠️"
               onPress={() => onNavigate?.("status")}
+              compact={isMobile}
             />
-            <Divider />
+
+            <Divider hide={isTablet} />
+
             <Feature
               text="Kartor och besök"
               icon="🗺️"
               onPress={() => onNavigate?.("map")}
+              compact={isMobile}
             />
           </View>
         </View>
@@ -47,8 +66,8 @@ export default function Footer({ onNavigate }: FooterProps) {
 
       <View style={styles.dark}>
         <View style={styles.colsOuter}>
-          <View style={styles.colsInner}>
-            <FooterCol title="Kommunen">
+          <View style={[styles.colsInner, isTablet && styles.colsInnerWrap]}>
+            <FooterCol title="Kommunen" colsCount={colsCount}>
               <Text style={styles.centerText}>Copyright © {new Date().getFullYear()}</Text>
 
               <FooterLink
@@ -69,7 +88,7 @@ export default function Footer({ onNavigate }: FooterProps) {
               />
             </FooterCol>
 
-            <FooterCol title="Service">
+            <FooterCol title="Service" colsCount={colsCount}>
               <FooterLink
                 label="Alla e-tjänster"
                 onPress={() => onNavigate?.("e-services")}
@@ -88,7 +107,7 @@ export default function Footer({ onNavigate }: FooterProps) {
               />
             </FooterCol>
 
-            <FooterCol title="Invånare">
+            <FooterCol title="Invånare" colsCount={colsCount}>
               <FooterLink
                 label="Skola och förskola"
                 onPress={() => onNavigate?.("school")}
@@ -107,7 +126,7 @@ export default function Footer({ onNavigate }: FooterProps) {
               />
             </FooterCol>
 
-            <FooterCol title="Kontakt">
+            <FooterCol title="Kontakt" colsCount={colsCount}>
               <Text style={styles.centerText}>Kontaktcenter</Text>
               <Text style={styles.centerText}>Telefon: 013 00 00 00</Text>
               <Text style={styles.centerText}>info@kommun.se</Text>
@@ -117,7 +136,7 @@ export default function Footer({ onNavigate }: FooterProps) {
               </Pressable>
             </FooterCol>
 
-            <FooterCol title="Sociala medier">
+            <FooterCol title="Sociala medier" colsCount={colsCount}>
               <SocialLink
                 icon="📷"
                 label="Instagram"
@@ -139,12 +158,11 @@ export default function Footer({ onNavigate }: FooterProps) {
 
         <View style={styles.divider} />
 
-        <View style={styles.brandRow}>
-            <Badge text="Märkning" onPress={() => onNavigate?.("home")} />
-            <Badge text="Tillgänglighet" onPress={() => onNavigate?.("accessibility")} />
-            <Badge text="Säkerhet" onPress={() => onNavigate?.("status")} />
+        <View style={[styles.brandRow, isMobile && styles.brandRowWrap]}>
+          <Badge text="Märkning" onPress={() => onNavigate?.("home")} />
+          <Badge text="Tillgänglighet" onPress={() => onNavigate?.("accessibility")} />
+          <Badge text="Säkerhet" onPress={() => onNavigate?.("status")} />
         </View>
-
       </View>
     </View>
   );
@@ -154,26 +172,37 @@ function Feature({
   icon,
   text,
   onPress,
+  compact,
 }: {
   icon: string;
   text: string;
   onPress?: () => void;
+  compact?: boolean;
 }) {
   return (
-    <Pressable style={styles.feature} onPress={onPress}>
-      <Text style={styles.featureIcon}>{icon}</Text>
-      <Text style={styles.featureText}>{text}</Text>
+    <Pressable style={[styles.feature, compact && styles.featureCompact]} onPress={onPress}>
+      <Text style={[styles.featureIcon, compact && styles.featureIconCompact]}>{icon}</Text>
+      <Text style={[styles.featureText, compact && styles.featureTextCompact]}>{text}</Text>
     </Pressable>
   );
 }
 
-function Divider() {
+function Divider({ hide }: { hide?: boolean }) {
+  if (hide) return null;
   return <View style={styles.featureDivider} />;
 }
 
-function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
+function FooterCol({
+  title,
+  children,
+  colsCount,
+}: {
+  title: string;
+  children: React.ReactNode;
+  colsCount: number;
+}) {
   return (
-    <View style={styles.col}>
+    <View style={[styles.col, { width: `${100 / colsCount}%` }]}>
       <Text style={styles.colTitle}>{title}</Text>
       {children}
     </View>
@@ -219,7 +248,6 @@ function Badge({
   );
 }
 
-
 const styles = StyleSheet.create({
   wrapper: {
     width: "100%",
@@ -240,10 +268,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
+  featureRowWrap: {
+    flexWrap: "wrap",
+  },
+
   feature: {
     flex: 1,
     alignItems: "center",
     paddingVertical: 16,
+  },
+
+  featureCompact: {
+    flexBasis: "50%",
+    paddingVertical: 14,
   },
 
   featureIcon: {
@@ -251,10 +288,18 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
 
+  featureIconCompact: {
+    fontSize: 20,
+  },
+
   featureText: {
     fontSize: 12,
     fontWeight: "800",
     textAlign: "center",
+  },
+
+  featureTextCompact: {
+    fontSize: 11,
   },
 
   featureDivider: {
@@ -279,9 +324,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 
+  colsInnerWrap: {
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    rowGap: 18,
+  },
+
   col: {
-    flex: 1,
     alignItems: "center",
+    paddingHorizontal: 8,
   },
 
   colTitle: {
@@ -334,6 +385,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 16,
     paddingBottom: 16,
+  },
+
+  brandRowWrap: {
+    flexWrap: "wrap",
+    rowGap: 12,
+    paddingLeft: 16,
+    paddingRight: 16,
   },
 
   badge: {

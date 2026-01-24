@@ -218,10 +218,12 @@ sheet: {
   position: "absolute",
   top: 0,
   right: 0,
-  width: "30%", 
-  height: "60%",
+  width: 360,
+  maxWidth: "100%",
+  height: "100%",
   backgroundColor: "#FFFFFF",
 },
+
 
 
   topBar: {
@@ -250,7 +252,7 @@ sheet: {
   topActionText: {
     color: "#EAF7FA",
     fontWeight: "800",
-    fontSize: 12,
+    fontSize: 14,
   },
 
   iconDot: {
@@ -263,7 +265,7 @@ sheet: {
   },
 
   toolIcon: {
-  fontSize: 14,
+    fontSize: 22,
   },
 
 

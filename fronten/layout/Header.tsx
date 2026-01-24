@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, useWindowDimensions } from "react-native";
 import { colors } from "../theme/colors";
 
 import HeaderBrand from "../components/header/HeaderBrand";
@@ -12,15 +12,19 @@ type HeaderProps = {
 };
 
 export default function Header({ onNavigate, onMenuOpen }: HeaderProps) {
+  const { width } = useWindowDimensions();
+  const isMobile = width < 768;
+  const isTablet = width >= 768 && width < 1024;
+
   return (
     <View style={styles.wrapper}>
-      <View style={styles.top}>
-        <HeaderBrand onNavigate={onNavigate} />
-        <HeaderTools onNavigate={onNavigate} />
-        <HeaderActions onNavigate={onNavigate} onMenuOpen={onMenuOpen} />
+      <View style={[styles.top, isMobile && styles.topMobile, isTablet && styles.topTablet]}>
+        <HeaderBrand onNavigate={onNavigate} compact={isMobile} />
+        {!isMobile ? <HeaderTools onNavigate={onNavigate} /> : null}
+        <HeaderActions onNavigate={onNavigate} onMenuOpen={onMenuOpen} compact={isMobile} />
       </View>
 
-      <HeaderNav onNavigate={onNavigate} />
+      {!isMobile ? <HeaderNav onNavigate={onNavigate} /> : null}
     </View>
   );
 }
@@ -43,5 +47,17 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
     paddingLeft: 16,
     backgroundColor: colors.surface,
+  },
+
+  topTablet: {
+    paddingTop: 12,
+    paddingBottom: 12,
+  },
+
+  topMobile: {
+    paddingTop: 10,
+    paddingRight: 12,
+    paddingBottom: 10,
+    paddingLeft: 12,
   },
 });

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { colors } from "../../theme/colors";
 
 type HeaderNavProps = {
@@ -6,42 +6,61 @@ type HeaderNavProps = {
 };
 
 export default function HeaderNav({ onNavigate }: HeaderNavProps) {
+  const { width } = useWindowDimensions();
+
+  const isTablet = width < 1024;
+  const isMobile = width < 768;
+
+  if (isMobile) return null;
+
   return (
     <View style={styles.nav}>
       <View style={styles.navInner}>
-        <View style={styles.navLinks}>
+        <View style={[styles.navLinks, isTablet && styles.navLinksTablet]}>
           <Pressable onPress={() => onNavigate?.("work")}>
-            <Text style={styles.navLink}>Arbete och näringsliv</Text>
+            <Text style={[styles.navLink, isTablet && styles.navLinkTablet]}>
+              Arbete och näringsliv
+            </Text>
           </Pressable>
 
-          <View style={styles.navSep} />
+          <View style={[styles.navSep, isTablet && styles.navSepTablet]} />
 
           <Pressable onPress={() => onNavigate?.("living")}>
-            <Text style={styles.navLink}>Boende, trafik och miljö</Text>
+            <Text style={[styles.navLink, isTablet && styles.navLinkTablet]}>
+              Boende, trafik och miljö
+            </Text>
           </Pressable>
 
-          <View style={styles.navSep} />
+          <View style={[styles.navSep, isTablet && styles.navSepTablet]} />
 
           <Pressable onPress={() => onNavigate?.("school")}>
-            <Text style={styles.navLink}>Skola och förskola</Text>
+            <Text style={[styles.navLink, isTablet && styles.navLinkTablet]}>
+              Skola och förskola
+            </Text>
           </Pressable>
 
-          <View style={styles.navSep} />
+          <View style={[styles.navSep, isTablet && styles.navSepTablet]} />
 
           <Pressable onPress={() => onNavigate?.("care")}>
-            <Text style={styles.navLink}>Stöd och omsorg</Text>
+            <Text style={[styles.navLink, isTablet && styles.navLinkTablet]}>
+              Stöd och omsorg
+            </Text>
           </Pressable>
 
-          <View style={styles.navSep} />
+          <View style={[styles.navSep, isTablet && styles.navSepTablet]} />
 
           <Pressable onPress={() => onNavigate?.("leisure")}>
-            <Text style={styles.navLink}>Se och göra</Text>
+            <Text style={[styles.navLink, isTablet && styles.navLinkTablet]}>
+              Se och göra
+            </Text>
           </Pressable>
 
-          <View style={styles.navSep} />
+          <View style={[styles.navSep, isTablet && styles.navSepTablet]} />
 
           <Pressable onPress={() => onNavigate?.("politics")}>
-            <Text style={styles.navLink}>Kommun och politik</Text>
+            <Text style={[styles.navLink, isTablet && styles.navLinkTablet]}>
+              Kommun och politik
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -71,15 +90,31 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
 
+  navLinksTablet: {
+    gap: 10,
+    paddingTop: 10,
+    paddingRight: 12,
+    paddingBottom: 10,
+    paddingLeft: 12,
+  },
+
   navLink: {
     color: colors.navDarkText,
     fontSize: 14,
     fontWeight: "800",
   },
 
+  navLinkTablet: {
+    fontSize: 12,
+  },
+
   navSep: {
     width: 1,
     height: 18,
     backgroundColor: colors.navDarkLine,
+  },
+
+  navSepTablet: {
+    height: 14,
   },
 });
