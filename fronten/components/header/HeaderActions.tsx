@@ -12,7 +12,7 @@ export default function HeaderActions({ onNavigate }: HeaderActionsProps) {
         <Text style={styles.pillPrimaryText}>Sök</Text>
       </Pressable>
 
-      <Pressable style={styles.pillGhost} onPress={() => onNavigate?.("menu")}>
+      <Pressable style={styles.pillGhost} onPress={() => onNavigate?.("home")}>
         <Text style={styles.pillGhostText}>Meny</Text>
       </Pressable>
     </View>

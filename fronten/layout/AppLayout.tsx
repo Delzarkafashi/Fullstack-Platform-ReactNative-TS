@@ -1,4 +1,5 @@
-import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { ReactNode } from "react";
 import { colors } from "../theme/colors";
 import Header from "./Header";
@@ -6,19 +7,20 @@ import Footer from "./Footer";
 
 type AppLayoutProps = {
   children: ReactNode;
+  onNavigate: (screen: string) => void;
 };
 
-export default function AppLayout({ children }: AppLayoutProps) {
+export default function AppLayout({ children, onNavigate }: AppLayoutProps) {
   return (
     <SafeAreaView style={styles.safe}>
-      <Header />
+      <Header onNavigate={onNavigate} />
 
       <ScrollView contentContainerStyle={styles.page}>
         <View style={styles.main}>
           {children}
         </View>
 
-        <Footer />
+        <Footer onNavigate={onNavigate} />
       </ScrollView>
     </SafeAreaView>
   );

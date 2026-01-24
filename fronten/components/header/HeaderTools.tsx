@@ -8,7 +8,7 @@ type HeaderToolsProps = {
 export default function HeaderTools({ onNavigate }: HeaderToolsProps) {
   return (
     <View style={styles.tools}>
-      <Pressable style={styles.tool}>
+      <Pressable style={styles.tool} onPress={() => onNavigate?.("translate")}>
         <Text style={styles.toolIcon}>🌐</Text>
         <Text style={styles.toolText}>Translate</Text>
       </Pressable>
