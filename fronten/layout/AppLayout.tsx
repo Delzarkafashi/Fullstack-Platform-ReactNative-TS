@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     paddingRight: 24,
     paddingBottom: 16,
     paddingLeft: 24,
-    maxWidth: 1200,
+    maxWidth: "95%",
     width: "100%",
     alignSelf: "center",
   },
