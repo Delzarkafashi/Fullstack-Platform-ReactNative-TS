@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <RunConfiguration>
+    <EnvironmentVariables>
+      <ConnectionStrings__DefaultConnection>
+        Host=localhost;Port=5432;Database=fullstack_platform_react_native_ts;Username=api_user;Password=Kevin2004
+      </ConnectionStrings__DefaultConnection>
+    </EnvironmentVariables>
+  </RunConfiguration>
+</RunSettings>

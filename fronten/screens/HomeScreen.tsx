@@ -1,50 +1,81 @@
-import React, { useMemo } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { colors } from "../theme/colors";
+import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import ArticleCard from "../components/ArticleCard";
+import { getArticles, ArticleListItem } from "../services/articlesApi";
 
 export default function HomeScreen() {
-  const rows = useMemo(() => {
-    return Array.from({ length: 80 }, (_, i) => `Rad ${i + 1}  weweaweaweeaweawewe`);
+  const [articles, setArticles] = useState<ArticleListItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+
+  useEffect(() => {
+    getArticles()
+      .then((data) => {
+        setArticles(data);
+        setError(null);
+      })
+      .catch(() => {
+        setError("Ingen anslutning till servern");
+        setArticles([]);
+      });
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Startsida</Text>
 
-      <View style={styles.box}>
-        {rows.map((line) => (
-          <Text key={line} style={styles.text}>
-            {line}
-          </Text>
-        ))}
-      </View>
+  return (
+    <ScrollView contentContainerStyle={styles.wrapper}>
+      <Text style={styles.title}>Startsida</Text>
+      {error && <Text style={styles.error}>{error}</Text>}
+
+      {!error && articles.length === 0 && (
+        <Text style={styles.empty}>Inga artiklar</Text>
+      )}
+    <View style={styles.grid}>
+      {articles.map((item) => (
+      <ArticleCard
+        key={item.id}
+        id={item.id}
+        title={item.title}
+        excerpt={item.excerpt}
+        imageUrl={item.imageUrl ?? undefined}
+        category={item.category}
+      />
+      ))}
     </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    gap: 12,
-  },
-
-  title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: colors.fg,
-  },
-
-  box: {
-    backgroundColor: "rgba(0,0,0,0.04)",
-    paddingTop: 16,
+  wrapper: {
+    flexGrow: 1,
+    paddingTop: 24,
     paddingRight: 16,
-    paddingBottom: 16,
+    paddingBottom: 24,
     paddingLeft: 16,
-    borderRadius: 8,
   },
-
-  text: {
-    fontSize: 16,
-    color: colors.muted,
+  error: {
+    color: "red",
+    marginBottom: 12,
+    fontWeight: "700",
+  },
+  empty: {
+    opacity: 0.7,
+    marginBottom: 12,
+  },
+  grid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    paddingTop: 8,
+    paddingRight: 4,
+    paddingBottom: 8,
+    paddingLeft: 4,
+ },
+  title: {
+    fontSize: 22,
+    fontWeight: "800",
     marginBottom: 10,
+  },
+  list: {
+    gap: 16,
   },
 });

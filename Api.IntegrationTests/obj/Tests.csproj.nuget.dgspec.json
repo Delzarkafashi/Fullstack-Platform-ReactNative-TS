@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Delzar\\Desktop\\mina kurser som jag bygger\\Fullstack-Platform-ReactNative-TS\\Api.IntegrationTests\\Api.IntegrationTests.csproj": {}
+    "C:\\Users\\Delzar\\Desktop\\mina kurser som jag bygger\\Fullstack-Platform-ReactNative-TS\\Api.IntegrationTests\\Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Delzar\\Desktop\\mina kurser som jag bygger\\Fullstack-Platform-ReactNative-TS\\Api.IntegrationTests\\Api.IntegrationTests.csproj": {
+    "C:\\Users\\Delzar\\Desktop\\mina kurser som jag bygger\\Fullstack-Platform-ReactNative-TS\\Api.IntegrationTests\\Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Delzar\\Desktop\\mina kurser som jag bygger\\Fullstack-Platform-ReactNative-TS\\Api.IntegrationTests\\Api.IntegrationTests.csproj",
-        "projectName": "Api.IntegrationTests",
-        "projectPath": "C:\\Users\\Delzar\\Desktop\\mina kurser som jag bygger\\Fullstack-Platform-ReactNative-TS\\Api.IntegrationTests\\Api.IntegrationTests.csproj",
+        "projectUniqueName": "C:\\Users\\Delzar\\Desktop\\mina kurser som jag bygger\\Fullstack-Platform-ReactNative-TS\\Api.IntegrationTests\\Tests.csproj",
+        "projectName": "Tests",
+        "projectPath": "C:\\Users\\Delzar\\Desktop\\mina kurser som jag bygger\\Fullstack-Platform-ReactNative-TS\\Api.IntegrationTests\\Tests.csproj",
         "packagesPath": "C:\\Users\\Delzar\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Delzar\\Desktop\\mina kurser som jag bygger\\Fullstack-Platform-ReactNative-TS\\Api.IntegrationTests\\obj\\",
         "projectStyle": "PackageReference",
@@ -62,6 +62,10 @@
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.12.0, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[10.0.1, )"
             },
             "coverlet.collector": {
               "target": "Package",
