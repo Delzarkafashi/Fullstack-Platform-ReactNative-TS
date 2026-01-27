@@ -28,17 +28,17 @@ export default function HomeNews({ news, error }: Props) {
         <Text style={styles.empty}>Inga nyheter</Text>
       )}
 
-      <View style={styles.list}>
+      <View style={styles.grid}>
         {news.map((item) => (
           <Pressable
             key={item.id}
-            onPress={() =>
-              navigation.navigate("politics", { slug: item.slug })
-            }
-            style={styles.row}
+            onPress={() => navigation.navigate("politics", { slug: item.slug })}
+            style={styles.cell}
           >
-            <Text style={styles.date}>{formatDate(item.publishedAt)}</Text>
-            <Text style={styles.title}>{item.title}</Text>
+            <View style={styles.card}>
+              <Text style={styles.date}>{formatDate(item.publishedAt)}</Text>
+              <Text style={styles.title}>{item.title}</Text>
+            </View>
           </Pressable>
         ))}
       </View>
@@ -62,16 +62,38 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     marginBottom: 12,
   },
-  list: {
-    gap: 10,
-    marginBottom: 6,
+
+  grid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    paddingTop: 8,
+    paddingRight: 4,
+    paddingBottom: 8,
+    paddingLeft: 4,
+    maxWidth: 720,
+    alignSelf: "center",
+    width: "100%",
   },
-  row: {
-    padding: 12,
+
+  cell: {
+    width: "33.3333%",
+    paddingTop: 0,
+    paddingRight: 12,
+    paddingBottom: 12,
+    paddingLeft: 12,
+  },
+
+  card: {
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
     borderWidth: 1,
     borderColor: "rgba(0,0,0,0.12)",
     borderRadius: 10,
+    backgroundColor: "#fff",
   },
+
   date: {
     fontSize: 12,
     opacity: 0.7,

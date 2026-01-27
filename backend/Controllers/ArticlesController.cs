@@ -17,7 +17,7 @@ public class ArticlesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var articles = await _repo.GetAllAsync();
+        var articles = await _repo.GetLatestAsync();
         return Ok(articles);
     }
 
