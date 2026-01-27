@@ -29,7 +29,9 @@ export type RootStackParamList = {
   school: undefined;
   care: undefined;
   leisure: undefined;
-  politics: undefined;
+
+  politics: { slug?: string } | undefined;
+
   status: undefined;
   accessibility: undefined;
   visit: undefined;

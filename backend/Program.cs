@@ -26,8 +26,9 @@ builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<ArticlesRepository>();
 
+builder.Services.AddScoped<ArticlesRepository>();
+builder.Services.AddScoped<NewsRepository>();
 
 var app = builder.Build();
 
