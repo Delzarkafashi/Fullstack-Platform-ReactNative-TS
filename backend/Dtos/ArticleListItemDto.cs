@@ -8,4 +8,6 @@ public class ArticleListItemDto
     public string? ImageUrl { get; set; }
     public string Category { get; set; } = null!;
     public DateTime PublishedAt { get; set; }
+    public string Slug { get; set; } = null!;
+
 }

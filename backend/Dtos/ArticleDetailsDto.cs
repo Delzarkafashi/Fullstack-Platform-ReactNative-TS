@@ -9,4 +9,6 @@ public class ArticleDetailsDto
     public string Category { get; set; } = null!;
     public DateTime PublishedAt { get; set; }
     public string Content { get; set; } = null!;
+    public string Slug { get; set; } = null!;
+
 }
