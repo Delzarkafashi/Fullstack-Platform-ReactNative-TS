@@ -1,0 +1,55 @@
+##################################
+# Node / React / Expo
+##################################
+node_modules/
+.expo/
+dist/
+web-build/
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+.metro-health-check*
+
+##################################
+# React Native native builds
+##################################
+ios/
+android/
+
+##################################
+# .NET / ASP.NET Core
+##################################
+**/bin/
+**/obj/
+*.pdb
+*.dll
+*.cache
+
+##################################
+# Visual Studio / VS Code
+##################################
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+##################################
+# Tests / coverage
+##################################
+coverage/
+TestResults/
+
+##################################
+# Secrets / env
+##################################
+.env
+.env.*
+appsettings.*.json
+
+##################################
+# OS
+##################################
+.DS_Store
+Thumbs.db
