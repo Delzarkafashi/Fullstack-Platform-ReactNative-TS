@@ -9,7 +9,8 @@ builder.Services.AddCors(options =>
     {
         policy
             .WithOrigins("http://localhost:8081",
-                         "http://localhost:8001")
+                         "http://localhost:8001",
+                         "http://localhost:5173")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -29,6 +30,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ArticlesRepository>();
 builder.Services.AddScoped<NewsRepository>();
+
+builder.Services.AddScoped<ResidentsRepository>();
+
 
 var app = builder.Build();
 
