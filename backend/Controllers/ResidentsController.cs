@@ -1,4 +1,5 @@
 ﻿using Api.Data;
+using Api.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -21,11 +22,40 @@ public sealed class ResidentsController : ControllerBase
         return Ok(items);
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetById(Guid id)
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetById(int id)
     {
         var item = await _repo.GetByIdAsync(id);
         if (item is null) return NotFound();
         return Ok(item);
     }
+
+    [HttpGet("{id:int}/care-plan")]
+    public async Task<IActionResult> GetCarePlan(int id)
+    {
+        var plan = await _repo.GetCarePlanByResidentIdAsync(id);
+        return Ok(plan);
+    }
+
+    [HttpPut("{id:int}/care-plan")]
+    public async Task<IActionResult> SaveCarePlan(int id, [FromBody] CarePlanDto dto)
+    {
+        await _repo.UpsertCarePlanByResidentIdAsync(id, dto);
+        return NoContent();
+    }
+
+    [HttpGet("{id:int}/documentation")]
+    public async Task<IActionResult> GetDocumentation(int id)
+    {
+        var items = await _repo.GetDocumentationByResidentIdAsync(id);
+        return Ok(items);
+    }
+
+    [HttpPost("{id:int}/documentation")]
+    public async Task<IActionResult> CreateDocumentation(int id, [FromBody] CreateDocumentationEntryDto dto)
+    {
+        var entry = await _repo.CreateDocumentationEntryAsync(id, dto);
+        return Ok(entry);
+    }
+
 }

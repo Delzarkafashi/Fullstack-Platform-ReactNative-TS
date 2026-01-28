@@ -1,8 +1,9 @@
 ﻿namespace Api.Dtos;
 
 public class ResidentListItemDto
+
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public string FullName { get; set; } = "";
     public string? PersonalNumber { get; set; }
     public string Unit { get; set; } = "";

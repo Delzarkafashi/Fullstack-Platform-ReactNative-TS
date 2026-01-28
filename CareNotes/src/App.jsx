@@ -1,14 +1,14 @@
-// src/App.jsx
 import { useEffect, useMemo, useState } from "react";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Residents from "./pages/Residents";
+import ResidentsPage from "./pages/Residents";
 import ResidentDetails from "./pages/ResidentDetails";
 import Notes from "./pages/Notes";
 import Staff from "./pages/Staff";
 import Settings from "./pages/Settings";
 import Layout from "./components/Layout";
 import { getResidents } from "./services/residentsApi";
+
 
 export default function App() {
   const [role, setRole] = useState(null);
@@ -83,7 +83,7 @@ export default function App() {
             onBack={() => setSelectedResidentId(null)}
           />
         ) : (
-          <Residents
+          <ResidentsPage
             residents={residents}
             loading={residentsLoading}
             error={residentsError}
@@ -91,6 +91,7 @@ export default function App() {
           />
         )
       ) : null}
+
 
       {route === "notes" ? <Notes role={role} /> : null}
       {route === "staff" ? <Staff role={role} /> : null}
