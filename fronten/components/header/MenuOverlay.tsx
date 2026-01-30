@@ -220,7 +220,7 @@ sheet: {
   right: 0,
   width: 360,
   maxWidth: "100%",
-  height: "100%",
+  maxHeight: "100%",
   backgroundColor: "#FFFFFF",
 },
 

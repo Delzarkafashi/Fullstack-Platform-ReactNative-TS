@@ -53,11 +53,13 @@ const styles = StyleSheet.create({
     marginTop: 14,
     marginBottom: 8,
   },
+
   error: {
     color: "red",
     marginBottom: 12,
     fontWeight: "700",
   },
+
   empty: {
     opacity: 0.7,
     marginBottom: 12,
@@ -66,41 +68,44 @@ const styles = StyleSheet.create({
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
+    gap: 12,
     paddingTop: 8,
-    paddingRight: 4,
+    paddingRight: 12,
     paddingBottom: 8,
-    paddingLeft: 4,
+    paddingLeft: 12,
     maxWidth: 720,
     alignSelf: "center",
     width: "100%",
   },
 
   cell: {
-    width: "33.3333%",
-    paddingTop: 0,
-    paddingRight: 12,
-    paddingBottom: 12,
-    paddingLeft: 12,
+    flexGrow: 1,
+    flexBasis: 160,   
+    maxWidth: "100%",
   },
 
   card: {
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 10,
+    height: "100%",
+    paddingTop: 12,
+    paddingRight: 12,
+    paddingBottom: 12,
+    paddingLeft: 12,
     borderWidth: 1,
     borderColor: "rgba(0,0,0,0.12)",
-    borderRadius: 10,
+    borderRadius: 12,
     backgroundColor: "#fff",
+    justifyContent: "space-between",
   },
 
   date: {
     fontSize: 12,
     opacity: 0.7,
-    marginBottom: 4,
+    marginBottom: 6,
   },
+
   title: {
     fontSize: 15,
-    fontWeight: "700",
+    fontWeight: "800",
+    lineHeight: 20,
   },
 });
