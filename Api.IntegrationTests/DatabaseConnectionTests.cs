@@ -10,10 +10,11 @@ public class DatabaseConnectionTests
     public async Task Can_connect_to_database()
     {
         var config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json", optional: false)
+            .AddUserSecrets<DatabaseConnectionTests>()
             .Build();
 
         var connectionString = config.GetConnectionString("DefaultConnection");
+        Assert.False(string.IsNullOrEmpty(connectionString));
 
         await using var connection = new NpgsqlConnection(connectionString);
         await connection.OpenAsync();
@@ -21,6 +22,7 @@ public class DatabaseConnectionTests
         await using var command = new NpgsqlCommand("SELECT 1", connection);
         var result = await command.ExecuteScalarAsync();
 
-        Assert.Equal(1, (int)result);
+        Assert.NotNull(result);
+        Assert.Equal(1, Convert.ToInt32(result));
     }
 }

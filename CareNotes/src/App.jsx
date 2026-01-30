@@ -6,7 +6,7 @@ import ResidentDetails from "./pages/ResidentDetails";
 import Notes from "./pages/Notes";
 import Staff from "./pages/Staff";
 import Settings from "./pages/Settings";
-import Layout from "./components/Layout";
+import Layout from "./components/Layout/AppLayout";
 import { getResidents } from "./services/residentsApi";
 
 

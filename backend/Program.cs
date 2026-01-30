@@ -1,5 +1,8 @@
+using Api.Controllers;
 using Api.Data;
 using Npgsql;
+using Api.Controllers;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +27,9 @@ Console.WriteLine("Database connection successful");
 
 builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(NewsController).Assembly);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

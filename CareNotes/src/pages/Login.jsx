@@ -6,15 +6,15 @@ export default function Login({ onSelectRole }) {
       <div className="loginWrap">
         <div className="loginCard">
           <div className="loginTitle">CareNotes</div>
-          <div className="loginSub">Välj roll för att fortsätta</div>
+          <div className="loginSub">Logga in för att fortsätta</div>
 
           <div className="loginButtons">
-            <button className="btn btnPrimary" type="button" onClick={() => onSelectRole("chef")}>
-              Logga in som Chef
-            </button>
-
-            <button className="btn btnSecondary" type="button" onClick={() => onSelectRole("personal")}>
-              Logga in som Personal
+            <button
+              className="btn btnPrimary"
+              type="button"
+              onClick={() => onSelectRole("chef")}
+            >
+              Logga in
             </button>
           </div>
 
@@ -102,10 +102,5 @@ const css = `
   .btnPrimary {
     background: #2563eb;
     color: #ffffff;
-  }
-
-  .btnSecondary {
-    background: rgba(15, 23, 42, 0.08);
-    color: #0f172a;
   }
 `;
