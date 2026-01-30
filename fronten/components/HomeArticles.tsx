@@ -1,3 +1,4 @@
+// components/HomeArticles.tsx
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -14,6 +15,33 @@ type Props = {
   error: string | null;
 };
 
+function norm(input: string) {
+  return input
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function pickScreen(category: string): keyof RootStackParamList {
+  const c = norm(category);
+
+  if (c.includes("vatten") || c.includes("avlopp") || c.includes("va")) return "living";
+  if (c.includes("trafik") || c.includes("vag") || c.includes("väg") || c.includes("parkering")) 
+  if (c.includes("politik") || c.includes("kommun") || c === "politics") return "politics";
+  if (c.includes("skola") || c.includes("utbild") || c === "school") return "school";
+  if (c.includes("omsorg") || c.includes("stod") || c.includes("stöd") || c === "care") return "care";
+  if (c.includes("fritid") || c.includes("uppleva") || c.includes("gora") || c.includes("göra") || c === "leisure")
+    return "leisure";
+  if (c.includes("bo") || c.includes("miljo") || c.includes("miljö") || c.includes("bygg") || c === "living")
+    return "living";
+  if (c.includes("arbete") || c.includes("jobb") || c === "work") return "work";
+  if (c.includes("foretag") || c.includes("företag") || c.includes("naringsliv") || c.includes("näringsliv") || c === "business")
+    return "business";
+
+  return "home";
+}
+
 export default function HomeArticles({ articles, error }: Props) {
   const navigation = useNavigation<Nav>();
 
@@ -27,25 +55,29 @@ export default function HomeArticles({ articles, error }: Props) {
       )}
 
       <View style={styles.grid}>
-        {articles.map((item) => (
-          <Pressable
-            key={item.id}
-            style={styles.card}
-            onPress={() => navigation.navigate("politics")}
-          >
-            {item.imageUrl ? (
-              <Image source={{ uri: item.imageUrl }} style={styles.image} />
-            ) : null}
+        {articles.map((item) => {
+          const screen = pickScreen(item.category);
 
-            <View style={styles.content}>
-              <Text style={styles.category}>{item.category}</Text>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.excerpt} numberOfLines={3}>
-                {item.excerpt}
-              </Text>
-            </View>
-          </Pressable>
-        ))}
+          return (
+            <Pressable
+              key={item.id}
+              style={styles.card}
+              onPress={() => navigation.navigate(screen, { articleId: item.id } as any)}
+            >
+              {item.imageUrl ? (
+                <Image source={{ uri: item.imageUrl }} style={styles.image} />
+              ) : null}
+
+              <View style={styles.content}>
+                <Text style={styles.category}>{item.category}</Text>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.excerpt} numberOfLines={3}>
+                  {item.excerpt}
+                </Text>
+              </View>
+            </Pressable>
+          );
+        })}
       </View>
     </>
   );

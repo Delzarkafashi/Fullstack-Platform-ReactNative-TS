@@ -1,5 +1,8 @@
 import React from "react";
-import { createNavigationContainerRef, NavigationContainer } from "@react-navigation/native";
+import {
+  createNavigationContainerRef,
+  NavigationContainer,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AppLayout from "../layout/AppLayout";
@@ -23,16 +26,20 @@ export type RootStackParamList = {
   search: undefined;
   contact: undefined;
   "e-services": undefined;
-  business: undefined;
-  work: undefined;
-  living: undefined;
-  school: undefined;
-  care: undefined;
-  leisure: undefined;
-  politics: { slug: string } | undefined;
+
+  business: { articleId?: number } | undefined;
+  work: { articleId?: number } | undefined;
+  living: { articleId?: number } | undefined;
+  school: { articleId?: number } | undefined;
+  care: { articleId?: number } | undefined;
+  leisure: { articleId?: number } | undefined;
+
+  politics: { slug?: string; articleId?: number } | undefined;
+
   status: undefined;
   accessibility: undefined;
   visit: undefined;
+
   map: undefined;
   translate: undefined;
   menu: undefined;
@@ -60,7 +67,10 @@ function withLayout(Screen: React.ComponentType<any>) {
 export default function AppNavigator() {
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="home">
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="home"
+      >
         <Stack.Screen name="home" component={withLayout(HomeScreen)} />
         <Stack.Screen name="search" component={withLayout(SearchScreen)} />
         <Stack.Screen name="contact" component={withLayout(ContactScreen)} />
@@ -74,7 +84,10 @@ export default function AppNavigator() {
         <Stack.Screen name="politics" component={withLayout(PoliticsScreen)} />
 
         <Stack.Screen name="status" component={withLayout(StatusScreen)} />
-        <Stack.Screen name="accessibility" component={withLayout(AccessibilityScreen)} />
+        <Stack.Screen
+          name="accessibility"
+          component={withLayout(AccessibilityScreen)}
+        />
         <Stack.Screen name="visit" component={withLayout(VisitScreen)} />
 
         <Stack.Screen name="business" component={withLayout(WorkBusinessScreen)} />
