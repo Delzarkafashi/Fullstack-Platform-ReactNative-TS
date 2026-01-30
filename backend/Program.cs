@@ -33,6 +33,9 @@ builder.Services.AddScoped<NewsRepository>();
 
 builder.Services.AddScoped<ResidentsRepository>();
 
+builder.Services.AddScoped<PageContentRepository>();
+
+
 
 var app = builder.Build();
 
