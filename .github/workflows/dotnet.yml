@@ -1,0 +1,30 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "main", "test-mocks" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore backend
+
+      - name: Build
+        run: dotnet build backend --no-restore
+
+      - name: Test (Testing env)
+        run: |
+          export ASPNETCORE_ENVIRONMENT=Testing
+          dotnet test backend --no-build --verbosity normal
