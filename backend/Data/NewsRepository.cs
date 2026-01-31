@@ -3,11 +3,11 @@ using Npgsql;
 
 namespace Api.Data;
 
-public sealed class NewsRepository
+public sealed class DbNewsRepository : INewsRepository
 {
     private readonly string _connectionString;
 
-    public NewsRepository(IConfiguration config)
+    public DbNewsRepository(IConfiguration config)
     {
         _connectionString = config.GetConnectionString("DefaultConnection")
             ?? throw new InvalidOperationException("Missing connection string: DefaultConnection");

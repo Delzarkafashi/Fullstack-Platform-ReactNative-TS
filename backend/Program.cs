@@ -1,8 +1,6 @@
 using Api.Controllers;
 using Api.Data;
 using Npgsql;
-using Api.Controllers;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,21 +9,29 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy
-            .WithOrigins("http://localhost:8081",
-                         "http://localhost:8001",
-                         "http://localhost:5173")
+            .WithOrigins(
+                "http://localhost:8081",
+                "http://localhost:8001",
+                "http://localhost:5173"
+            )
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+if (!builder.Environment.IsEnvironment("Testing"))
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-await using var connection = new NpgsqlConnection(connectionString);
-await connection.OpenAsync();
-Console.WriteLine("Database connection successful");
+    if (string.IsNullOrWhiteSpace(connectionString))
+        throw new InvalidOperationException("Missing DefaultConnection connection string.");
 
-builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
+    await using var connection = new NpgsqlConnection(connectionString);
+    await connection.OpenAsync();
+    Console.WriteLine("Database connection successful");
+
+    builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
+}
 
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(NewsController).Assembly);
@@ -33,14 +39,34 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ArticlesRepository>();
-builder.Services.AddScoped<NewsRepository>();
+if (builder.Environment.IsEnvironment("Testing"))
+{
+    builder.Services.AddScoped<IArticlesRepository, FakeArticlesRepository>();
+}
+else
+{
+    builder.Services.AddScoped<IArticlesRepository, DbArticlesRepository>();
+}
 
-builder.Services.AddScoped<ResidentsRepository>();
+if (builder.Environment.IsEnvironment("Testing"))
+{
+    builder.Services.AddScoped<INewsRepository, FakeNewsRepository>();
+}
+else
+{
+    builder.Services.AddScoped<INewsRepository, DbNewsRepository>();
+}
+
+if (builder.Environment.IsEnvironment("Testing"))
+{
+    builder.Services.AddScoped<IResidentsRepository, FakeResidentsRepository>();
+}
+else
+{
+    builder.Services.AddScoped<IResidentsRepository, DbResidentsRepository>();
+}
 
 builder.Services.AddScoped<PageContentRepository>();
-
-
 
 var app = builder.Build();
 

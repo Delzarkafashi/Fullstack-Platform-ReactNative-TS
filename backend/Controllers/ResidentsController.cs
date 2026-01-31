@@ -8,9 +8,9 @@ namespace Api.Controllers;
 [Route("api/residents")]
 public sealed class ResidentsController : ControllerBase
 {
-    private readonly ResidentsRepository _repo;
+    private readonly IResidentsRepository _repo;
 
-    public ResidentsController(ResidentsRepository repo)
+    public ResidentsController(IResidentsRepository repo)
     {
         _repo = repo;
     }
@@ -57,5 +57,4 @@ public sealed class ResidentsController : ControllerBase
         var entry = await _repo.CreateDocumentationEntryAsync(id, dto);
         return Ok(entry);
     }
-
 }

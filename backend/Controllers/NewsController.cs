@@ -7,9 +7,9 @@ namespace Api.Controllers;
 [Route("api/news")]
 public sealed class NewsController : ControllerBase
 {
-    private readonly NewsRepository _repo;
+    private readonly INewsRepository _repo;
 
-    public NewsController(NewsRepository repo)
+    public NewsController(INewsRepository repo)
     {
         _repo = repo;
     }
@@ -31,7 +31,7 @@ public sealed class NewsController : ControllerBase
     }
 
     [HttpGet("{slug}")]
-    public async Task<IActionResult> GetBySlug([FromRoute] string slug)
+    public async Task<IActionResult> GetBySlug(string slug)
     {
         var item = await _repo.GetBySlugAsync(slug);
         if (item is null) return NotFound();
