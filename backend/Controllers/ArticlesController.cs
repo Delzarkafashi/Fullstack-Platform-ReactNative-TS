@@ -7,9 +7,9 @@ namespace Api.Controllers;
 [Route("api/articles")]
 public class ArticlesController : ControllerBase
 {
-    private readonly ArticlesRepository _repo;
+    private readonly IArticlesRepository _repo;
 
-    public ArticlesController(ArticlesRepository repo)
+    public ArticlesController(IArticlesRepository repo)
     {
         _repo = repo;
     }

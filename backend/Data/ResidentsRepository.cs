@@ -3,11 +3,11 @@ using Npgsql;
 
 namespace Api.Data;
 
-public sealed class ResidentsRepository
+public sealed class DbResidentsRepository : IResidentsRepository
 {
     private readonly string _cs;
 
-    public ResidentsRepository(IConfiguration config)
+    public DbResidentsRepository(IConfiguration config)
     {
         _cs = config.GetConnectionString("DefaultConnection")
               ?? throw new InvalidOperationException("Missing connection string");
@@ -172,7 +172,6 @@ public sealed class ResidentsRepository
             CreatedAt = reader.GetFieldValue<DateTimeOffset>(4)
         };
     }
-
 
     private static async Task<CarePlanDto> GetCarePlanAsync(NpgsqlConnection conn, int residentId)
     {
