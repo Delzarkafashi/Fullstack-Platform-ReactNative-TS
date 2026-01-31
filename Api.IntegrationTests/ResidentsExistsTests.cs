@@ -69,7 +69,7 @@ public class ResidentsExistsTests : IClassFixture<WebApplicationFactory<Program>
             }
             else
             {
-                Assert.True(false, "Expected resident to have name or fullName");
+                Assert.Fail("Expected resident to have name or fullName");
             }
         }
     }
