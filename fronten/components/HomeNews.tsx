@@ -79,10 +79,10 @@ const styles = StyleSheet.create({
   },
 
   cell: {
+    flexBasis: 320,
     flexGrow: 1,
-    flexBasis: 160,   
-    maxWidth: "100%",
   },
+
 
   card: {
     height: "100%",
