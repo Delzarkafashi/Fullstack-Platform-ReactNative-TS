@@ -8,6 +8,8 @@ import Staff from "./pages/Staff";
 import Settings from "./pages/Settings";
 import Layout from "./components/Layout/AppLayout";
 import { getResidents } from "./services/residentsApi";
+import Documentation from "./pages/Documentation";
+
 
 
 export default function App() {
@@ -96,6 +98,8 @@ export default function App() {
       {route === "notes" ? <Notes role={role} /> : null}
       {route === "staff" ? <Staff role={role} /> : null}
       {route === "settings" ? <Settings /> : null}
+      {route === "documentation" ? <Documentation /> : null}
+
     </Layout>
   );
 }

@@ -1,7 +1,7 @@
 export default function SideNav({ route, onNavigate }) {
   const items = [
     { key: "dashboard", label: "Översikt" },
-    { key: "anteckningar", label: "anteckningar" }, 
+    { key: "documentation", label: "Dokumentation" },
     { key: "residents", label: "Brukare" },
     { key: "notes", label: "Allmänt" },
     // { key: "staff", label: "Personal" },
