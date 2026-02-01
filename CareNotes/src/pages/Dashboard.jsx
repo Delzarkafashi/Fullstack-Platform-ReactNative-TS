@@ -1,61 +1,150 @@
-export default function Dashboard() {
+import { useEffect, useMemo, useState } from "react";
+import { getResidents, getDocumentation } from "../services/residentsApi";
+
+export default function Dashboard({ onNavigate }) {
+  const [residents, setResidents] = useState([]);
+  const [docs, setDocs] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(null);
+
+  useEffect(() => {
+    let alive = true;
+
+    async function load() {
+      setLoading(true);
+      setErr(null);
+
+      try {
+        const resList = await getResidents();
+        const list = Array.isArray(resList) ? resList : [];
+        if (!alive) return;
+        setResidents(list);
+
+        const docsPerResident = await Promise.all(
+          list.map(async (r) => {
+            const d = await getDocumentation(r.id);
+            const arr = Array.isArray(d) ? d : [];
+            return arr.map((x) => ({
+              ...x,
+              residentName: r.fullName,
+            }));
+          })
+        );
+
+        const flat = docsPerResident.flat();
+
+        flat.sort((a, b) => {
+          const ta = new Date(a.createdAt).getTime();
+          const tb = new Date(b.createdAt).getTime();
+          return tb - ta;
+        });
+
+        if (!alive) return;
+        setDocs(flat);
+      } catch (e) {
+        if (!alive) return;
+        setResidents([]);
+        setDocs([]);
+        setErr(e?.message || "Kunde inte hämta data");
+      } finally {
+        if (!alive) return;
+        setLoading(false);
+      }
+    }
+
+    load();
+
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const stats = useMemo(() => {
+    const totalResidents = residents.length;
+    const activeResidents = residents.filter((r) => r.isActive).length;
+
+    const today = new Date();
+    const y = today.getFullYear();
+    const m = today.getMonth();
+    const d = today.getDate();
+
+    const notesToday = docs.filter((x) => {
+      const dt = new Date(x.createdAt);
+      return dt.getFullYear() === y && dt.getMonth() === m && dt.getDate() === d;
+    }).length;
+
+    return { totalResidents, activeResidents, notesToday };
+  }, [residents, docs]);
+
+  const recentDocs = useMemo(() => docs.slice(0, 5), [docs]);
+
   return (
     <section className="panel">
       <style>{css}</style>
 
       <h1 className="h1">Översikt</h1>
 
-      {/* Statistik */}
+      {loading ? <div className="muted">Laddar</div> : null}
+      {err ? <div className="error">{err}</div> : null}
+
       <div className="stats">
         <div className="statCard">
           <span className="statLabel">Brukare</span>
-          <span className="statValue">24</span>
+          <span className="statValue">{stats.totalResidents}</span>
         </div>
 
         <div className="statCard">
-          <span className="statLabel">Aktiva ärenden</span>
-          <span className="statValue">7</span>
+          <span className="statLabel">Aktiva brukare</span>
+          <span className="statValue">{stats.activeResidents}</span>
         </div>
 
         <div className="statCard">
           <span className="statLabel">Anteckningar idag</span>
-          <span className="statValue">13</span>
-        </div>
-
-        <div className="statCard">
-          <span className="statLabel">Personal i tjänst</span>
-          <span className="statValue">5</span>
+          <span className="statValue">{stats.notesToday}</span>
         </div>
       </div>
 
-      {/* Innehåll */}
       <div className="grid">
         <div className="box">
           <h2>Senaste händelser</h2>
-          <ul className="list">
-            <li>Anteckning skapad för Anna Karlsson</li>
-            <li>Genomförandeplan uppdaterad</li>
-            <li>Ny brukare tillagd</li>
-            <li>Personal ändrad på avdelning B</li>
-          </ul>
+
+          {recentDocs.length === 0 ? (
+            <div className="muted">Ingen dokumentation ännu</div>
+          ) : (
+            <ul className="list">
+              {recentDocs.map((x) => (
+                <li key={`${x.id}-${x.createdAt}-${x.residentId}`}>
+                  {x.residentName} skrev {x.category} {formatDate(x.createdAt)}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <div className="box">
           <h2>Att göra</h2>
           <ul className="list">
-            <li>Signera 3 anteckningar</li>
             <li>Följ upp möte med brukare</li>
             <li>Uppdatera genomförandeplan</li>
+            <li>Skapa ny dokumentation vid behov</li>
           </ul>
         </div>
 
         <div className="box">
           <h2>Snabblänkar</h2>
           <div className="actions">
-            <button>Ny anteckning</button>
-            <button>Visa brukare</button>
-            <button>Personal</button>
-            <button>Inställningar</button>
+            <button type="button" onClick={() => onNavigate?.("documentation")}>
+              Ny dokumentation
+            </button>
+
+            <button type="button" onClick={() => onNavigate?.("residents")}>
+              Visa brukare
+            </button>
+
+            <button type="button" onClick={() => onNavigate?.("settings")}>
+              Inställningar
+            </button>
           </div>
         </div>
 
@@ -63,13 +152,19 @@ export default function Dashboard() {
           <h2>Systemstatus</h2>
           <ul className="list muted">
             <li>API status: OK</li>
-            <li>Senaste backup: Idag 02:00</li>
             <li>Version: 0.1.0</li>
           </ul>
         </div>
       </div>
     </section>
   );
+}
+
+function formatDate(value) {
+  if (!value) return "";
+  const dt = new Date(value);
+  if (Number.isNaN(dt.getTime())) return "";
+  return dt.toLocaleString();
 }
 
 const css = `
@@ -179,5 +274,14 @@ const css = `
   padding-left: 12px;
   font-size: 13px;
   cursor: pointer;
+}
+
+.error {
+  color: #b91c1c;
+  font-weight: 800;
+  margin-top: 8px;
+  margin-right: 0;
+  margin-bottom: 8px;
+  margin-left: 0;
 }
 `;
