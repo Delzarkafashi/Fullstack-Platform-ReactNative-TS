@@ -1,75 +1,40 @@
-# Fullstack Platform – React Native, React & C# Backend API
+# Fullstack Platform – React Native, React & Backend API
 
-## Projektbeskrivning
+Ett komplett fullstackprojekt med gemensam backend och databas.  
+Projektet består av två separata frontend-applikationer som delar samma backend men har olika användningsområden.
 
-Detta projekt består av två separata frontend-applikationer som delar samma backend och databas, men har olika syften och användargrupper.
+Den offentliga informationsplattformen är byggd i **React Native med TypeScript**, medan det interna systemet **Care Notes** är byggt i **React (JavaScript)**.  
+Backenden är utvecklad i **C# (.NET Web API)** och är kopplad till en **PostgreSQL-databas**.
 
-Backenden är byggd i **C# med ASP.NET Core** och exponerar ett REST API.  
-All data lagras i en **PostgreSQL-databas** och nås av båda frontend-applikationerna via API:et.
-
----
-
-## 1. Informationsplattform (offentlig)
-
-En kommunliknande informationsplattform byggd med **React Native och TypeScript**.  
-Plattformen är avsedd för allmänheten och används för att visa:
-
-- Sidor och innehåll
-- Nyheter
-- Kategorier
-- Drift- och statusinformation
-
-All information hämtas dynamiskt från databasen via backend-API:et.
+Projektet använder **GitHub Actions** för CI, där build och integrationstester körs automatiskt vid push och pull request.
 
 ---
 
-## 2. Care Notes (internt system)
+## Projektöversikt
 
-Ett separat internt system byggt med **React och JavaScript**.  
-Care Notes är avsett för inloggade användare och används för:
-
-- Avvikelsehantering
-- Dokumentation
-- Anteckningar
-- Intern uppföljning
-- Bemötandeplaner och journalföring
-
-Care Notes delar **samma C# backend och PostgreSQL-databas** som informationsplattformen, men har egen frontend, eget användarflöde och egna vyer anpassade för intern användning.
+- Offentlig informationsplattform (React Native, TypeScript, Expo)
+- Internt system – Care Notes (React, JavaScript)
+- Gemensam backend i C# (.NET Web API)
+- PostgreSQL-databas
+- Databasstyrt innehåll via REST API
+- CI med GitHub Actions (build och tester vid push och pull request)
+- Grundstruktur för roller, behörigheter och inloggning
 
 ---
 
-## Syfte och mål
+## Struktur i repot
 
-- Skapa en gemensam backend som kan återanvändas av flera frontend-klienter
-- Separera offentligt och internt innehåll tydligt
-- Möjliggöra strukturerad dokumentation och uppföljning
-- Bygga en skalbar fullstack-lösning med tydlig arkitektur
-
----
-
-## Tech stack
-
-### Frontend – Informationsplattform
-- React Native
-- TypeScript
-
-### Frontend – Care Notes
-- React
-- JavaScript
-
-### Backend
-- C#
-- ASP.NET Core
-- REST API
-
-### Databas
-- PostgreSQL
+- `frontend/` – React Native informationsplattform
+- `CareNotes/` – Internt React-system
+- `backend/` – .NET Web API
+- `Api.IntegrationTests/` – Integrationstester
+- `.github/workflows/` – GitHub Actions workflows för build och test
 
 ---
 
-## Funktionell inriktning
+## Syfte
 
-- Dynamisk datalagring och hämtning via API
-- Rollbaserat användarflöde i Care Notes
-- Delad backend för flera klienter
+- En gemensam backend som kan användas av flera klienter
 - Tydlig separation mellan publik och intern funktionalitet
+- Skalbar och strukturerad fullstack-arkitektur
+- Automatiserat arbetsflöde med CI och testning
