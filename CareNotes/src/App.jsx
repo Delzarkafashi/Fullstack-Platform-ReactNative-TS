@@ -75,7 +75,7 @@ export default function App() {
 
   return (
     <Layout role={role} route={route} onNavigate={navigate} onLogout={logout}>
-      {route === "dashboard" ? <Dashboard /> : null}
+      {route === "dashboard" ? <Dashboard onNavigate={navigate} /> : null}
 
       {route === "residents" ? (
         selectedResident ? (

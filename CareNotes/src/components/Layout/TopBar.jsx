@@ -5,7 +5,6 @@ export default function TopBar({ onLogout }) {
 
       <div className="left">
         <div className="brand">CareNotes</div>
-        <div className="tag">Tom UI</div>
       </div>
 
       <div className="right">
