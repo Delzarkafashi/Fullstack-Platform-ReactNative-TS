@@ -15,6 +15,10 @@ export async function getCarePlan(id) {
 export async function getDocumentation(id) {
   return apiGet(`/api/residents/${id}/documentation`);
 }
+export async function getAllDocumentation() {
+  return apiGet("/api/documentation");
+}
+
 
 export async function createDocumentation(id, payload) {
   const res = await fetch(`${import.meta.env.VITE_API_URL ?? "https://localhost:7110"}${`/api/residents/${id}/documentation`}`, {
@@ -30,3 +34,5 @@ export async function createDocumentation(id, payload) {
 
   return res.json();
 }
+
+
