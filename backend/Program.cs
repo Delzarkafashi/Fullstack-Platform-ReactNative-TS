@@ -65,7 +65,7 @@ else
 {
     builder.Services.AddScoped<IResidentsRepository, DbResidentsRepository>();
 }
-
+builder.Services.AddScoped<IUsersRepository, DbUsersRepository>();
 builder.Services.AddScoped<PageContentRepository>();
 
 var app = builder.Build();
