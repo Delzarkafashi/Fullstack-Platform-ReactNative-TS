@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Api.Data;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("api/articles")]
+[Authorize(Roles = "admin")]
 public class ArticlesController : ControllerBase
 {
     private readonly IArticlesRepository _repo;
